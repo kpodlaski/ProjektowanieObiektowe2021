@@ -1,0 +1,35 @@
+@startuml pkp_usecase
+actor Kasjer as P 
+actor Klient as K
+actor Bank as B
+actor Pracownik as PP
+actor Informacja as Inf
+
+rectangle PKP {
+    usecase "Kupno Biletu" as kupno
+    usecase "Płatność" as platnosc
+    usecase "Wydruk biletu" as wydruk
+    usecase "Płatność Gotówką" as gotowka
+    usecase "Płatność Kartą" as karta
+
+}
+
+P -- kupno 
+K -- kupno
+P -- wydruk
+B -- karta
+P -- platnosc
+K -- platnosc
+
+P --|> PP : <<extends>>
+Inf --|> PP : <<extends>>
+kupno --> wydruk : <<invoke>>
+kupno --> platnosc : <<invoke>>
+gotowka --|> platnosc : <<extends>>
+karta --|> platnosc : <<extends>>
+
+@enduml
+
+' line comment
+/' multiline
+comment '/

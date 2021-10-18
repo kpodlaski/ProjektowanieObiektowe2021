@@ -1,0 +1,39 @@
+@startuml
+actor Passenger as P
+actor Service as S
+actor Security as Sec
+entity Bank
+
+
+rectangle Airport{
+
+   usecase "Drop Lugagge" as DLuggage
+' komentarz '
+   usecase "Print Boarding Pass" as PBP
+   usecase "Buy Ticket" as Buy
+   usecase "Security Screen" as SecS
+   usecase Shopping
+   usecase "Passport Controll" as Pass
+   usecase Borarding
+   usecase "Take Off" as TakeOff
+   usecase "Loadding Luggage" as TLuggage
+   usecase "Buy using cash" as cash
+   usecase "Buy using card" as card
+
+}
+
+P -- DLuggage
+S -- DLuggage
+P -- PBP
+S -- PBP
+P -- Buy
+S -- Buy
+P -- SecS
+Sec -- SecS
+S -- TLuggage
+'card --> Bank : <<authorize>>
+card -- Bank : <<authorize>>
+DLuggage --> TLuggage : <<invoke>>
+cash --|> Buy : <<extends>>
+card --|> Buy : <<extends>>
+@enduml
