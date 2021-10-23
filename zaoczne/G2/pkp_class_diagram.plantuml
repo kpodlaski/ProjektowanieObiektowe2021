@@ -1,0 +1,88 @@
+@startuml
+
+class Człowiek{
+    id : int
+    Imie : String
+    Nazwisko : String
+}
+
+class Klient{
+    
+}
+
+class Kasjer{}
+
+class Informacja{}
+
+class Pracownik{
+}
+
+class Bank{
+    autoryzacja(kwota) : bool
+}
+
+class Bilet{
+    trasa 
+    termin 
+    cena 
+    klasa 
+}
+
+class Paragon{
+    'bilet : Bilet
+    dataTransakcji
+    cena
+    vat 
+}
+
+class Kasa{
+    stan
+    zakup(bilet:Bilet)
+}
+class Drukarka{
+    wydruk(bilet:Bilet)
+    wydruk(paragon:Paragon)
+}
+
+class Terminal {
+    autoryzacja(kwota) : bool
+}
+
+class SystemPKP{
+    bazaDanych
+    wyszukanieTrasy(...)
+    zakupBiletu(...)
+}
+
+class UI {}
+class Konsola{}
+class GUI {}
+class WebUI {}
+
+Kasjer --|> Pracownik
+Informacja --|> Pracownik
+Klient --|> Człowiek
+Pracownik --|> Człowiek
+GUI --|> UI
+Konsola --|> UI
+WebUI --|> UI
+
+
+Paragon "bilety" o-- Bilet
+Kasa "drukarka" -- Drukarka
+Kasjer  ..  Kasa  
+'relacja 1 do 1 ale nie ma pola kasjer w kasie i vice versa, relacja kontrolowana przez SystemPKP
+Kasa "terminal" -- Terminal
+Kasa ..> Paragon :<<create>>
+SystemPKP ..> Bilet :<<create>>
+Terminal "bank" -- Bank
+
+
+SystemPKP "ui" -- "system" UI
+SystemPKP "kasjerzy" *-- "system" Kasjer
+SystemPKP "kasy" *-- Kasa
+SystemPKP "klienci" *-- Klient
+
+' *-- kompozycja 
+' o-- agregacja
+@enduml
