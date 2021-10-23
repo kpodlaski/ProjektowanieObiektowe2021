@@ -1,0 +1,92 @@
+@startuml
+
+class Człowiek{
+    id : integer
+    Imie : string
+    Nazwisko : string
+}
+
+class Pracownik{
+
+}
+
+class Klient{
+   
+}
+
+class Informacja{
+
+}
+
+class Kasjer{
+
+}
+
+class Kasa{
+    stan
+    zakup(bilet) : Paragon 
+}
+
+class Bank{
+    autoryzacja(kwota) : Boolean
+}
+
+class Bilet{
+    cel 
+    termin
+    cena 
+    klasa
+}
+
+class Paragon{
+    cena
+    vat
+    'bilet : Bilet
+}
+
+class Drukarka{
+    wydruk(bilet:Bilet)
+    wydruk(paragon:Paragon)
+}
+
+class Terminal{
+    płatnosc(kwota):Boolean
+}
+
+class UI {
+     
+    wprowadzanie_danych()
+    wyświetlanie_informacji()
+        
+}
+
+class Konsola{}
+class GUI{}
+class WebUI{}
+
+class SystemPKP{
+    bazaDanych
+    wyszukiwanie_połączeń()
+    'logowanie() : Pracownik
+    logowanie()
+    sprzedarz_biletu()
+}
+
+Pracownik --|> Człowiek
+Klient --|> Człowiek
+Informacja --|> Pracownik
+Kasjer --|> Pracownik
+Konsola --|> UI
+GUI --|> UI
+WebUI --|> UI
+
+
+Paragon "bilet" -- Bilet
+Kasa "drukarka" -- Drukarka
+Kasjer "kasa" -- Kasa
+Kasa "terminal" -- Terminal
+Terminal "bank" -- Bank
+SystemPKP "ui" -- "systemPKP" UI
+SystemPKP "kasjerzy" *-- Kasjer
+
+@enduml
