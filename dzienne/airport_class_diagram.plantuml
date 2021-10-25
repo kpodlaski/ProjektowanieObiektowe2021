@@ -17,11 +17,11 @@ class Ticket{}
 class Printer{}
 
 class Terminal{
-    Authorize(ammount) : bool
+    Authorize(amount) : bool
 }
 
 class Bank{
-    Authorize(ammount) : bool
+    Authorize(amount) : bool
 }
 
 class Security{
