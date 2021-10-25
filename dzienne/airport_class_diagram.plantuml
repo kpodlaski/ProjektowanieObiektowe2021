@@ -1,0 +1,70 @@
+class Person{
+    Name
+    Surname 
+}
+
+class Passenger{
+}
+
+class Service{
+    DropLuggage(bp:BoardingPass):Luggage
+    PrintBoardingPass(p:Passenger):BoardingPass
+    BuyTicket(...):Ticket
+}
+
+class Ticket{}
+
+class Printer{}
+
+class Terminal{
+    Authorize(ammount) : bool
+}
+
+class Bank{
+    Authorize(ammount) : bool
+}
+
+class Security{
+    SecScreen(p: Passenger)
+    Alarm()
+}
+
+class BoardingPass{
+    From 
+    To 
+    Seat 
+    Date 
+    Gate
+}
+
+class Luggage{
+    Weight
+}
+
+class Airport{
+    servicePassenger(Passenger)
+}
+
+class UI{}
+class Console{}
+class GUI {}
+class WebUI{}
+
+Passenger --|> Person
+Service --|> Person
+Security --|> Person
+
+Terminal -- "Terminal" Service
+Terminal "bank" -- Bank
+Printer -- "Printer" Service
+
+BoardingPass "Luggage" o-- "BoardingPass" Luggage
+
+
+Airport "Service" *-- Service
+Airport "Security" *-- Security
+Airport "UI" o-- "system" UI
+
+GUI --|> UI
+WebUI --|> UI
+Console --|> UI
