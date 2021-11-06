@@ -1,0 +1,29 @@
+@startuml
+
+(*) --> "New Client"
+--> "Voyage agreement"
+if  "Paying form" as Payment then 
+    --> [CARD] "Card Payment"
+    --> "Insert PIN" as PIN
+    if "PIN correct" then
+        --> [YES] "Authorize"
+        --> "Contact Bank System"
+        if "Accepted" then
+            --> [YES] "Print ticket" as Ticket
+            --> "Print Recip" 
+            --> "Give both to Client"
+            --> (*)
+        else 
+            --> [NO] Payment
+        endif
+    else 
+        --> [NO up to 3 times] PIN 
+    endif
+else
+    --> [CASH] "Cash Payment"
+    --> "Give change"
+    --> "Ticket"
+else 
+    --> [CANCEL] (*)
+endif
+@enduml
