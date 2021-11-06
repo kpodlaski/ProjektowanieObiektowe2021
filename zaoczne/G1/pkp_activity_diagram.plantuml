@@ -1,0 +1,24 @@
+@startuml
+
+
+(*) --> "New Client" 
+--> "Ticket Agreement"
+if "Pay by cash" as payment then
+    -->[YES] "Payment by Cash"
+    --> "Print Ticket" as GetTicket
+    --> "Print Recip"
+    --> "Give both to client"
+    --> (*)
+else 
+    -->[NO] "Authenticate Payment"
+    --> "Contact Bank System"
+    if "Authorized" 
+        --> [Yes] GetTicket
+    else 
+        --> [NO] payment
+    endif
+else 
+    --> [CANCEL] (*)
+endif
+
+@enduml
