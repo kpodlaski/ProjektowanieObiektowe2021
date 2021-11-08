@@ -1,0 +1,24 @@
+@startuml
+
+(*) --> [Dop Luggage] "Drop Luggage"
+--> ====B1===
+--> "Loading Luggage"
+--> ===B2===
+--> "Take Off"
+--> (*)
+===B1 === --> "Security Scan"
+if "Safe" then
+    --> [YES] "Gate Check"
+    if "Boarding Pass Check"
+        --> [OK] "Register Passanger on List"
+        --> "Boarding"
+        --> ===B2===
+    else
+        --> [NO] (*)
+    endif
+else
+    --> [NO] "Alarm"
+    --> (*)
+endif
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+
+(*) --> "Front Office" as FO
+if "Action to do" then
+    --> [Buy Ticket] Buy Ticket
+    --> FO
+else 
+    --> [Pass] "Gate Check"
+else 
+    --> [END] (*)
+else
+    --> [Dop Luggage] "Drop Luggage"
+    --> ====B1===
+    --> "Loading Luggage"
+    --> ===B2===
+    --> "Take Off"
+    --> (*)
+    ===B1 === --> "Security Scan"
+    if "Safe" then 
+        --> [YES] "Gate Check"
+            if "Boarding Pass Check"
+                --> [OK] "Register Passanger on List"
+                --> "Boarding"
+                --> ===B2=== 
+            else 
+                --> [NO] FO
+            endif
+        else 
+            --> [NO] "Alarm"
+            --> (*)
+    endif
+endif
+@enduml
