@@ -1,0 +1,41 @@
+@startuml
+
+actor Passenger
+actor Personel
+
+Passenger --> Personel : approach desk
+Personel --> Passenger : ask for id
+return : id document
+Personel --> Service : findFlightData(personalData)
+' TODO ad the method to Service Class
+activate Service
+Service --> Database : query
+' TODO add Database to class diagram and reference in Service
+activate Database
+return
+Service --> Personel : showInfo
+deactivate Service
+Personel --> Passenger : ask for Luggage
+return : luggage
+Personel --> Weight : weigt(luggage)
+Weight --> Service : setWeight(weight)
+activate Service
+Service --> Service : checkLuggage()
+Service --> Service : addLuggageToBoardingPass()
+activate Service
+Service --> Database : update
+activate Database
+return 
+return
+Service --> Printer : printLuggageInfo(boardingPass)
+activate Printer
+return 
+Service --> Personel : proceed
+deactivate Service
+Personel --> Personel : addStickersToLugage 
+Personel --> Service : acceptLuggage(luggage)
+return
+Personel --> Personel : sendLuggageToPlane
+Personel --> Passenger : give luggage notification
+
+@enduml
