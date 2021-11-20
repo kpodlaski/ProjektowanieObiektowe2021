@@ -1,0 +1,50 @@
+@startuml
+
+actor Klient
+actor Kasjer
+
+
+
+Klient -> Kasjer : powitanie
+return 
+Klient -> Kasjer : miejsce, termin
+Kasjer -> System : wyszukiwanie_polaczeń(miejsce, termin)
+activate System
+return polaczenie
+Kasjer --> Klient: polaczenie
+Klient -> Kasjer : potwierdzenie zakupu
+Kasjer -> System : sprzedarz_biletu(polaczenie)
+activate System
+System -> System : rzerwacja_biletu(polaczenie, Klient)
+activate System
+return
+System --> Kasjer : bilet
+
+deactivate System
+
+Kasjer -> Klient : forma płatności
+'dodać aktwacje poniżej
+alt płatność kartą 
+    return płatność karta
+    Kasjer -> Kasa : kwota, karta
+    Kasa -> Terminal : kwota
+    Terminal -> Klient : pin
+    return 
+
+    entity Bank
+    Terminal -> Bank : autoryzacja 
+    return : accept
+    Terminal --> Kasa : accept
+    Kasa --> Kasjer : ok
+    ' Dodać wydrukowanie biletu i paragonu
+    Kasjer --> Klient: bilet, paragon, potwierdzenie
+
+else płatność gotówką
+    Kasjer -> Kasa : kwota, karta
+    Kasa --> System : ok
+    System --> Kasjer : ok
+    ' Dodać wydrukowanie biletu i paragonu
+    Kasjer --> Klient: bilet, paragon, potwierdzenie
+end
+
+@enduml
