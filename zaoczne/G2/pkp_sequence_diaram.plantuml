@@ -1,0 +1,61 @@
+@startuml
+
+actor Klient
+actor Kasjer
+
+Klient -> Kasjer : miejsce, termin
+
+Kasjer -> SystemPkp : wyszukanieTrasy(miejsce, termin)
+activate SystemPkp
+database "Baza Danych" as DB 
+SystemPkp -> DB : query
+activate DB
+return 
+return połączenia
+Kasjer --> Klient: połączenia
+Klient -> Kasjer: połączenie 
+
+Kasjer -> Klient : forma zapłaty
+alt : płatność gotówką
+    Klient -> Kasjer : płatność gotówką
+    Kasjer -> SystemPkp : zakupBiletu(połączenie)
+    activate SystemPkp
+    SystemPkp -> Kasa : wpłata (kwota)
+    activate Kasa
+    Kasa -> Kasjer : czy zapłacono
+    Kasjer --> Kasa : tak, kwota
+    Kasa -> Kasa : zmianaStanu(kwota)
+    Kasa -> Drukarka : wydruk(bilet, paragon)
+    activate Drukarka
+    return
+    return bilet, paragon
+    SystemPkp -> DB: logowanie operacji
+    activate DB
+    return
+    return zapłacono, bilet, paragon
+    Kasjer --> Klient : bilet, paragon
+''Dodać Aktywację poniżej
+else : płatność kartą
+    Klient -> Kasjer : płatność kartą
+    Kasjer -> SystemPkp : zakupBiletu(połączenie)
+    SystemPkp -> Kasa : wpłata (kwota, karta)
+    Kasa -> Terminal : wpłata(kwota)
+    Terminal -> Klient : zatwierdź
+    return pin
+    boundary Bank 
+    Terminal -> Bank : autoryzacja
+    return ok
+    Terminal --> Kasa : ok
+    Kasa -> Kasa : zmianaStanu(kwota)
+    Kasa -> Drukarka : wydruk(bilet, paragon, potwierdzenie)
+    return
+    Kasa -> SystemPkp: bilet, paragon, potwierdzenie
+    SystemPkp -> DB: logowanie operacji
+    return
+    SystemPkp --> Kasjer : zapłacono
+    Kasjer --> Klient : bilet, paragon
+end
+
+
+
+@enduml
