@@ -34,25 +34,29 @@ alt : płatność gotówką
     return
     return zapłacono, bilet, paragon
     Kasjer --> Klient : bilet, paragon
-''Dodać Aktywację poniżej
+
 else : płatność kartą
     Klient -> Kasjer : płatność kartą
     Kasjer -> SystemPkp : zakupBiletu(połączenie)
+    activate SystemPkp
     SystemPkp -> Kasa : wpłata (kwota, karta)
+    activate Kasa
     Kasa -> Terminal : wpłata(kwota)
+    activate Terminal
     Terminal -> Klient : zatwierdź
-    return pin
+    Klient --> Terminal : pin
     boundary Bank 
     Terminal -> Bank : autoryzacja
+    Bank --> Terminal : ok
     return ok
-    Terminal --> Kasa : ok
     Kasa -> Kasa : zmianaStanu(kwota)
     Kasa -> Drukarka : wydruk(bilet, paragon, potwierdzenie)
-    return
-    Kasa -> SystemPkp: bilet, paragon, potwierdzenie
+    activate Drukarka
+    return 
+    return bilet, paragon, potwierdzenie
     SystemPkp -> DB: logowanie operacji
-    return
-    SystemPkp --> Kasjer : zapłacono
+    DB --> SystemPkp
+    return : zapłacono
     Kasjer --> Klient : bilet, paragon
 end
 
