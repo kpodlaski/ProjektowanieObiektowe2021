@@ -27,22 +27,24 @@ Kasjer -> Klient : forma płatności
 alt płatność kartą 
     return płatność karta
     Kasjer -> Kasa : kwota, karta
+    activate Kasa
     Kasa -> Terminal : kwota
-    Terminal -> Klient : pin
-    return 
+    activate Terminal
+    Terminal -> Klient : podaj pin
+    Klient --> Terminal : pin 
 
     entity Bank
     Terminal -> Bank : autoryzacja 
-    return : accept
-    Terminal --> Kasa : accept
-    Kasa --> Kasjer : ok
+    Bank --> Terminal : accept
+    return accept
+    return : ok
     ' Dodać wydrukowanie biletu i paragonu
     Kasjer --> Klient: bilet, paragon, potwierdzenie
 
 else płatność gotówką
     Kasjer -> Kasa : kwota, karta
-    Kasa --> System : ok
-    System --> Kasjer : ok
+    activate Kasa
+    return : ok
     ' Dodać wydrukowanie biletu i paragonu
     Kasjer --> Klient: bilet, paragon, potwierdzenie
 end
